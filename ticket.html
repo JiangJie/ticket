@@ -5,7 +5,7 @@
     <style>
     @page {
         size: 7in 9.25in;
-        /*margin: 27mm 16mm 27mm 16mm;*/
+        margin: 27mm 16mm 27mm 16mm;
     }
     * {
         margin: 0;
@@ -23,10 +23,12 @@
         justify-content: space-around;
         flex-wrap: wrap;
         height: 100%;
+        padding: 10px 0;
+        box-sizing: border-box;
     }
     .ticket {
         display: flex;
-        width: 50%;
+        width: 50%; 
         border-top: 1px dotted #000;
         border-right: 1px dotted #000;
         box-sizing: border-box;
@@ -40,7 +42,7 @@
     }
     .inner {
         display: flex;
-        border: 5px solid #000;
+        border: 3px solid #000;
         position: relative;
         padding: 50px 0 10px 0;
         width: 100%;
@@ -89,6 +91,9 @@
         font-family: '华文行楷';
         font-style: italic;
     }
+    .text.bg {
+        font-size: 50px;
+    }
     .content .text {
         margin-top: 10px;
     }
@@ -101,6 +106,19 @@
         position: absolute;
         right: 10px;
         top: 10px;
+    }
+    .img {
+        flex: 1;
+        font-size: 10px;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .qrcode {
+        width: 140px;
+        height: 140px;
     }
     </style>
 </head>
@@ -135,9 +153,18 @@
     }
 
     function createBack(isMian) {
+        const inner = isMian ? '<p class="text bg">主券</p>' : `<section class="img">
+                <img class="qrcode" src="img/ac2015交流群二维码.png"/>
+                <p>AC2015官方微信交流群</p>
+            </section>
+            <section class="img">
+                <img class="qrcode" src="img/alloyteam公众号二维码.jpg"/>
+                <p>AlloyTeam官方公众号</p>
+            </section>`;
+
         return `<section class="ticket">
             <div class="inner middle">
-                <p class="text">${isMian ? '主' : '副'}券</p>
+                ${inner}
             </div>
         </section>`;
     }
@@ -148,7 +175,7 @@
         if(numbers) inner = numbers.map(number => createTicket(number) + createTicket(number)).join('');
         else {
             for(let i = 0; i < M; i++) {
-                inner += createBack(1) + createBack();
+                inner += createBack() + createBack(1);
             }
         }
 
